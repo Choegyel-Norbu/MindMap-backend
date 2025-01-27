@@ -7,30 +7,28 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Product {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	private String name;
 
+	private String name;
 	
+	private String location;
+
 	public Product() {
 		super();
 	}
 
-	public Product(Integer id, String name) {
+	public Product(Integer id, String name, String location) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.location =  location;
 	}
 
 	public Integer getId() {
 		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -40,4 +38,14 @@ public class Product {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
+	
 }
