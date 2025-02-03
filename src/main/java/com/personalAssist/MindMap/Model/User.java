@@ -1,0 +1,115 @@
+package com.personalAssist.MindMap.Model;
+
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="users")
+public class User {
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+
+//    @NotBlank(message = "First name is required")
+//    @Size(max = 50, message = "First name must be less than 50 characters")
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    private String password;
+    
+    @CreationTimestamp
+    private LocalDateTime createdAt;;
+    
+    @CreationTimestamp
+    private LocalDateTime updatedAt;
+    
+
+	public User() {
+		super();
+	}
+
+	public User(String firstName, String lastName, String email, String phoneNumber, String password,
+			LocalDateTime createdAt, LocalDateTime updatedAt) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phoneNumber;
+		this.password = password;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhoneNumber() {
+		return phone;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phone = phoneNumber;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+    
+    
+
+}

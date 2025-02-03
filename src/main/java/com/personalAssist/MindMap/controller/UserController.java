@@ -15,42 +15,44 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.personalAssist.MindMap.Model.Product;
-import com.personalAssist.MindMap.service.ProductService;
+import com.personalAssist.MindMap.Model.User;
+import com.personalAssist.MindMap.service.UserService;
 
 @RestController
 @RequestMapping("api/")
-public class ProductController {
+public class UserController {
 	
 	@Autowired
-	ProductService productService;
+	UserService userService;
 	
-	@PostMapping("postProd")
-	public Product postProduct(@RequestBody Product product) {
+	@PostMapping("addUser")
+	public User addUser(@RequestBody User product) {
 		
-		Product result = productService.addProduct(product);
+		System.out.println("@@@ ------ reached in controller");
+		User result = userService.addUser(product);
 		if(result != null) {
 			return result;
 		}
 		return null;
 	}
 	
-	@GetMapping("getProds")
-	public List<Product> getAllProducts() {
-		return productService.getAllProduct();
+	@GetMapping("getUsers")
+	public List<User> getAllUsers() {
+		return userService.getAllUsers();
 	}
 	
-	@GetMapping("getProd/{id}")
-	public Product getById(@PathVariable Integer id) {
-		return productService.getById(id);
+	@GetMapping("getUser/{id}")
+	public User getById(@PathVariable Long id) {
+		return userService.getById(id);
 	}
 	
-	@DeleteMapping("deleteProd/{id}")
-	public String deleteProduct(@PathVariable Integer id) {
-		return productService.deletProduct(id);
+	@DeleteMapping("deleteUser/{id}")
+	public String deleteUser(@PathVariable Long id) {
+		return userService.deleteUser(id);
 	}
 	
-	@PatchMapping("updateProd/{id}")
-	public Optional<Product> updateProduct(@PathVariable Integer id, @RequestBody Product product) {
-		return productService.updateProduct(id, product);
+	@PatchMapping("updateUser/{id}")
+	public Optional<User> updateUser(@PathVariable Long id, @RequestBody User product) {
+		return userService.updateUser(id, product);
 	}
 }
