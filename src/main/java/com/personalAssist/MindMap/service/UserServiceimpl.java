@@ -4,12 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.personalAssist.MindMap.Model.Product;
 import com.personalAssist.MindMap.Model.User;
+import com.personalAssist.MindMap.dto.UserDTO;
 import com.personalAssist.MindMap.repository.ProductRepository;
 import com.personalAssist.MindMap.repository.UserRepository;
+import com.personalAssist.MindMap.util.PasswordEncoder;
+import com.personalAssist.MindMap.util.UserWrapper;
 
 @Service
 public class UserServiceimpl implements UserService{
@@ -18,10 +22,11 @@ public class UserServiceimpl implements UserService{
 	UserRepository userRepository;
 
 	@Override
-	public User addUser(User user) {
-		User result =  userRepository.save(user);
-		System.out.println("@@@------ "+ result);
-		return result;
+	public UserDTO addUser(UserDTO userDTO) {
+		User user = UserWrapper.toEntity(userDTO);
+		user.setPassword(PasswordEncoder.encode(userDTO.getPassword()));
+		
+		return UserWrapper.toDTO(userRepository.save(user));
 	}
 
 	@Override
@@ -37,7 +42,7 @@ public class UserServiceimpl implements UserService{
 			user.setLastName(updateUser.getLastName());
 			user.setPassword(updateUser.getPassword());
 			user.setEmail(updateUser.getEmail());
-			user.setPhoneNumber(updateUser.getPhoneNumber());
+			user.setPhone(updateUser.getPhone());
 			user.setCreatedAt(updateUser.getCreatedAt());
 			user.setUpdatedAt(updateUser.getUpdatedAt());
 			return userRepository.save(user);
@@ -63,6 +68,6 @@ public class UserServiceimpl implements UserService{
 	}
 
 
-	}
+}
 
 

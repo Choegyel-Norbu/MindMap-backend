@@ -27,28 +27,25 @@ public class User {
     private String phone;
     private String password;
     
-    @CreationTimestamp
+    
+    public User() {
+		super();
+	}
+
+	public User(String firstName, String lastName, String email, String phone) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phone;
+	}
+
+	@CreationTimestamp
     private LocalDateTime createdAt;;
     
     @CreationTimestamp
     private LocalDateTime updatedAt;
     
-
-	public User() {
-		super();
-	}
-
-	public User(String firstName, String lastName, String email, String phoneNumber, String password,
-			LocalDateTime createdAt, LocalDateTime updatedAt) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.phone = phoneNumber;
-		this.password = password;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-	}
 
 	public Long getId() {
 		return id;
@@ -78,12 +75,12 @@ public class User {
 		this.email = email;
 	}
 
-	public String getPhoneNumber() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phone = phoneNumber;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getPassword() {

@@ -7,11 +7,12 @@ import org.springframework.stereotype.Component;
 
 import com.personalAssist.MindMap.Model.Product;
 import com.personalAssist.MindMap.Model.User;
+import com.personalAssist.MindMap.dto.UserDTO;
 
 @Component
 public interface UserService {
 
-	public User addUser(User product);
+	public UserDTO addUser(UserDTO userDTO);
 	public List<User> getAllUsers();
 	public User getById(Long id);
 	public String deleteUser(Long id);

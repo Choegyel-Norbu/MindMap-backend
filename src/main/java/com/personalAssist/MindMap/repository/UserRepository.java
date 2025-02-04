@@ -9,6 +9,6 @@ import com.personalAssist.MindMap.Model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
-    Optional<User> findByEmail(String email); // Find user by email
+    User findByEmail(String email);
 
 }
