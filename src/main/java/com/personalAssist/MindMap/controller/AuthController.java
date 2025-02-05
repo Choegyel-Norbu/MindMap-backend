@@ -26,6 +26,7 @@ public class AuthController {
 
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestBody LoginRequestDTO loginRequestDTO) {
+		System.out.println("Login Request data @@@ "+ loginRequestDTO.getEmail());
 		User user = userRepository.findByEmail(loginRequestDTO.getEmail());
 
 		// Debugging: Print raw password and stored hash
