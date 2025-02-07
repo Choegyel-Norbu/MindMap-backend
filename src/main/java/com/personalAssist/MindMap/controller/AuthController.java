@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.personalAssist.MindMap.Model.User;
 import com.personalAssist.MindMap.dto.LoginRequestDTO;
+import com.personalAssist.MindMap.dto.UserDTO;
 import com.personalAssist.MindMap.repository.UserRepository;
 import com.personalAssist.MindMap.util.JwtUtil;
 import com.personalAssist.MindMap.util.PasswordEncoder;
+import com.personalAssist.MindMap.util.UserWrapper;
+import com.personalAssist.MindMap.wrapper.LoginApiResponse;
 
 @RestController
 @RequestMapping("/auth")
@@ -25,20 +28,21 @@ public class AuthController {
 	UserRepository userRepository;
 
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody LoginRequestDTO loginRequestDTO) {
-		System.out.println("Login Request data @@@ "+ loginRequestDTO.getEmail());
+	public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequestDTO) {
+		System.out.println("Login Request data @@@ " + loginRequestDTO.getEmail());
 		User user = userRepository.findByEmail(loginRequestDTO.getEmail());
 
-		// Debugging: Print raw password and stored hash
-		System.out.println("Raw Password: " + loginRequestDTO.getPassword());
-		System.out.println("Stored Hash: " + user.getPassword());
-
-		if (user != null && PasswordEncoder.matches(loginRequestDTO.getPassword(), user.getPassword())) {
-			String token = JwtUtil.generateToke(user.getEmail());
-			return ResponseEntity.ok(token);
+		if (user == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
 		}
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
 
+		if (!PasswordEncoder.matches(loginRequestDTO.getPassword(), user.getPassword())) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credetials");
+		}
+
+		String token = JwtUtil.generateToken(user.getEmail());
+		UserDTO userDTO = UserWrapper.toDTO(user);
+		return ResponseEntity.ok(new LoginApiResponse(token, userDTO));
 	}
 
 }

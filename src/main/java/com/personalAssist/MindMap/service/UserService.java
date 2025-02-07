@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.personalAssist.MindMap.Model.Product;
 import com.personalAssist.MindMap.Model.User;
 import com.personalAssist.MindMap.dto.UserDTO;
+import com.personalAssist.MindMap.util.RoleType;
 
 @Component
 public interface UserService {
@@ -17,5 +18,6 @@ public interface UserService {
 	public User getById(Long id);
 	public String deleteUser(Long id);
 	public Optional<User> updateUser(Long id, User updateUser);
+	public UserDTO addRole(String email, List<String> roleNames);
 }
 	

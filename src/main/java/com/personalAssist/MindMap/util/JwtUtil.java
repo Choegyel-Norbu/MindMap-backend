@@ -14,7 +14,7 @@ public class JwtUtil {
     private static final long EXPIRATION_TIME = 864_000_000; // 10 days
 
     
-    public static String generateToke(String email) {
+    public static String generateToken(String email) {
     	return Jwts.builder()
                 .setSubject(email)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))

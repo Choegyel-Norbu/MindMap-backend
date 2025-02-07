@@ -16,7 +16,7 @@ public class UserWrapper {
 	}
 
 	public static UserDTO toDTO(User user) {
-		return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPhone());
+		return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPhone(), user.getRoles());
 	}
 
 }

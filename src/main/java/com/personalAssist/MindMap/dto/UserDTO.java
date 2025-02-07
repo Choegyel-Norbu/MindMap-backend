@@ -1,6 +1,10 @@
 package com.personalAssist.MindMap.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+
+import com.personalAssist.MindMap.Model.Role;
 
 public class UserDTO {
 
@@ -10,6 +14,8 @@ public class UserDTO {
 	private String email;
 	private String phone;
 	private String password;
+	private List<String> roles;
+	private Set<Role> userRoles;
 
 	public UserDTO() {
 		super();
@@ -19,20 +25,40 @@ public class UserDTO {
 		return password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public UserDTO(Long id, String firstName, String lastName, String email, String phone) {
+	public UserDTO(Long id, String firstName, String lastName, String email, String phone, String password,
+			List<String> roles) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.phone = phone;
+		this.password = password;
+		this.roles = roles;
 	}
 
-	
+	public UserDTO(Long id, String firstName, String lastName, String email, String phone, Set<Role> userRoles) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phone;
+		this.roles = roles;
+	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public Long getId() {
 		return id;
 	}
