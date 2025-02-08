@@ -13,10 +13,13 @@ import org.springframework.stereotype.Service;
 import com.personalAssist.MindMap.Model.Product;
 import com.personalAssist.MindMap.Model.Role;
 import com.personalAssist.MindMap.Model.User;
+import com.personalAssist.MindMap.Model.UserServiceModal;
+import com.personalAssist.MindMap.dto.ServiceRequestDTO;
 import com.personalAssist.MindMap.dto.UserDTO;
 import com.personalAssist.MindMap.repository.ProductRepository;
 import com.personalAssist.MindMap.repository.RoleRepository;
 import com.personalAssist.MindMap.repository.UserRepository;
+import com.personalAssist.MindMap.repository.UserServiceRepository;
 import com.personalAssist.MindMap.util.PasswordEncoder;
 import com.personalAssist.MindMap.util.RoleType;
 import com.personalAssist.MindMap.util.UserWrapper;
@@ -29,6 +32,9 @@ public class UserServiceimpl implements UserService {
 
 	@Autowired
 	RoleRepository roleRepository;
+	
+	@Autowired
+	UserServiceRepository userServiceRepository;
 
 	@Override
 	public UserDTO addUser(UserDTO userDTO) {
@@ -99,6 +105,22 @@ public class UserServiceimpl implements UserService {
 		
 		user.setRoles(userRoles);
 		return UserWrapper.toDTO(userRepository.save(user));
+	}
+
+	@Override
+	public User addUserServiceOffered(ServiceRequestDTO serviceRequestDTO) {
+		User user = userRepository.findByEmail(serviceRequestDTO.getEmail());
+		
+		for(String service : serviceRequestDTO.getServices()) {
+			UserServiceModal userServiceModal = userServiceRepository.findByServiceName(service).orElseGet(() -> {
+				UserServiceModal newUserService = new UserServiceModal();
+				newUserService.setServiceName(service);
+				return userServiceRepository.save(newUserService);
+			});
+			user.addService(userServiceModal);
+		}
+		
+		return userRepository.save(user);
 	}
 	
 

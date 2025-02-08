@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.personalAssist.MindMap.Model.Product;
 import com.personalAssist.MindMap.Model.User;
+import com.personalAssist.MindMap.dto.ServiceRequestDTO;
 import com.personalAssist.MindMap.dto.UserDTO;
 import com.personalAssist.MindMap.service.UserService;
 
@@ -67,7 +68,20 @@ public class UserController {
 	@PutMapping("/addRoles")
 	public ResponseEntity<?> addRoles(@RequestBody UserDTO userDTO) {
 		try {
+			UserDTO DTO = userService.addRole(userDTO.getEmail(), userDTO.getRoles());
+			System.out.println("User roles @@@ - "+ userDTO.getRoles());
 			return ResponseEntity.status(HttpStatus.CREATED).body("Roles added successfully");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+
+		}
+	}
+	
+	@PostMapping("/addServices")
+	public ResponseEntity<?> addUserServiceOffered(@RequestBody ServiceRequestDTO serviceRequestDTO) {
+		try {
+			User user = userService.addUserServiceOffered(serviceRequestDTO);
+			return ResponseEntity.status(HttpStatus.CREATED).body("Services added successfully");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
 

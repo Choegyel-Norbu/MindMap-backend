@@ -1,11 +1,14 @@
 package com.personalAssist.MindMap.Model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -37,6 +41,21 @@ public class User {
 
 	)
 	private Set<Role> roles = new HashSet<>();
+
+	@ManyToMany
+	@JoinTable(name = "user_services", // The join table
+			joinColumns = @JoinColumn(name = "user_id"), // Foreign key in the join table
+			inverseJoinColumns = @JoinColumn(name = "service_id") // Foreign key for services
+	)
+	private List<UserServiceModal> userServices = new ArrayList<>();
+
+	public List<UserServiceModal> getUserServices() {
+		return userServices;
+	}
+
+	public void setUserServices(List<UserServiceModal> userServices) {
+		this.userServices = userServices;
+	}
 
 	public User() {
 		super();
@@ -124,5 +143,11 @@ public class User {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	
+	 // Helper method to add a service
+    public void addService(UserServiceModal service) {
+        this.userServices.add(service);
+        service.getUsers().add(this);
+    }
 
 }

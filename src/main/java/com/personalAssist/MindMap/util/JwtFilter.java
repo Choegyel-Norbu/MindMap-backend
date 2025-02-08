@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JwtFilter implements Filter {
 
 	private static final String[] AUTH_WHITELIST = { "/auth/login", // Login endpoint
-			"/api/registration" // Registration endpoint
+			"/api/registration", "/api/addServices" // Registration endpoint
 	};
 
 	@Override

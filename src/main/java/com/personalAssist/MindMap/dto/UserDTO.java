@@ -1,6 +1,7 @@
 package com.personalAssist.MindMap.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +17,7 @@ public class UserDTO {
 	private String password;
 	private List<String> roles;
 	private Set<Role> userRoles;
+	private List<String> userServices = new ArrayList<>();
 
 	public UserDTO() {
 		super();
@@ -61,6 +63,15 @@ public class UserDTO {
 
 	public Long getId() {
 		return id;
+	}
+	
+
+	public List<String> getUserServices() {
+		return userServices;
+	}
+
+	public void setUserServices(List<String> userServices) {
+		this.userServices = userServices;
 	}
 
 	public void setId(Long id) {
