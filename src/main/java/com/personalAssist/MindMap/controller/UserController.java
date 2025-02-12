@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.personalAssist.MindMap.Model.Product;
 import com.personalAssist.MindMap.Model.User;
+import com.personalAssist.MindMap.Model.UserServiceModal;
 import com.personalAssist.MindMap.dto.ServiceRequestDTO;
 import com.personalAssist.MindMap.dto.UserDTO;
+import com.personalAssist.MindMap.repository.UserRepository;
 import com.personalAssist.MindMap.service.UserService;
 
 @RestController
@@ -31,6 +33,9 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	UserRepository userRepo;
 
 	@PostMapping("/registration")
 	public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO) {
@@ -86,5 +91,17 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
 
 		}
+	}
+	
+	@PostMapping("/getServices")
+	public ResponseEntity<List<String>> fetchServicesForUser(@RequestBody ServiceRequestDTO serviceRequestDTO){
+		List<String> userServiceModal = userService.fetchServicesForUser(serviceRequestDTO);
+		return ResponseEntity.ok(userServiceModal);
+	}
+	
+	@DeleteMapping("/delete")
+	public String deleteUser() {
+		userRepo.deleteAll();
+		return "Deleted all users";
 	}
 }

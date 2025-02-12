@@ -1,5 +1,6 @@
 package com.personalAssist.MindMap.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,7 @@ public class UserServiceimpl implements UserService {
 
 	@Autowired
 	RoleRepository roleRepository;
-	
+
 	@Autowired
 	UserServiceRepository userServiceRepository;
 
@@ -90,19 +91,20 @@ public class UserServiceimpl implements UserService {
 	}
 
 	@Override
-	public UserDTO addRole(String email,  List<String> roleNames) {
+	public UserDTO addRole(String email, List<String> roleNames) {
 		User user = userRepository.findByEmail(email);
-		
-		Set<Role> userRoles= roleNames.stream().map(roleName -> {
+
+		Set<Role> userRoles = roleNames.stream().map(roleName -> {
 			RoleType roleType;
 			try {
 				roleType = RoleType.valueOf(roleName.toUpperCase());
-			}catch(IllegalArgumentException e) {
-                throw new RuntimeException("Invalid role: " + roleName);
+			} catch (IllegalArgumentException e) {
+				throw new RuntimeException("Invalid role: " + roleName);
 			}
-			return roleRepository.findByName(roleType).orElseThrow(() -> new RuntimeException("Role not found: " + roleType));
+			return roleRepository.findByName(roleType)
+					.orElseThrow(() -> new RuntimeException("Role not found: " + roleType));
 		}).collect(Collectors.toSet());
-		
+
 		user.setRoles(userRoles);
 		return UserWrapper.toDTO(userRepository.save(user));
 	}
@@ -110,8 +112,8 @@ public class UserServiceimpl implements UserService {
 	@Override
 	public User addUserServiceOffered(ServiceRequestDTO serviceRequestDTO) {
 		User user = userRepository.findByEmail(serviceRequestDTO.getEmail());
-		
-		for(String service : serviceRequestDTO.getServices()) {
+
+		for (String service : serviceRequestDTO.getServices()) {
 			UserServiceModal userServiceModal = userServiceRepository.findByServiceName(service).orElseGet(() -> {
 				UserServiceModal newUserService = new UserServiceModal();
 				newUserService.setServiceName(service);
@@ -119,9 +121,21 @@ public class UserServiceimpl implements UserService {
 			});
 			user.addService(userServiceModal);
 		}
-		
+
 		return userRepository.save(user);
 	}
-	
 
+	@Override
+	public List<String> fetchServicesForUser(ServiceRequestDTO serviceRequestDTO) {
+		User user = userRepository.findByEmail(serviceRequestDTO.getEmail());
+
+		List<UserServiceModal> userServices = userServiceRepository.findServicesByUserId(user.getId());
+		List<String> serviceNames = new ArrayList<>();
+
+		for (UserServiceModal m : userServices) {
+			serviceNames.add(m.getServiceName());
+		}
+
+		return serviceNames;
+	}
 }
